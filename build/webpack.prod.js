@@ -13,6 +13,10 @@ module.exports = merge(base, {
           'css-loader',
           'stylus-loader'
         ]
+      },
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader'
       }
     ]
   },

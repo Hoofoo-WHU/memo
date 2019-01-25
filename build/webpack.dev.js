@@ -5,7 +5,7 @@ const { HotModuleReplacementPlugin } = require('webpack')
 
 module.exports = merge(base, {
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   devServer: {
     contentBase: path.resolve('dist'),
     hot: true
@@ -18,6 +18,12 @@ module.exports = merge(base, {
           'style-loader',
           'css-loader',
           'stylus-loader'
+        ]
+      },
+      {
+        test: /\.ts$/,
+        use: [
+          'ts-loader'
         ]
       }
     ]
