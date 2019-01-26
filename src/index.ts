@@ -2,7 +2,7 @@ import '@/css/style.styl'
 
 import toast from '@/components/toast'
 
-toast('这是一条消息')
+toast('这是一条消息', 100000)
 setTimeout(() => {
   toast.error('失败了')
   setTimeout(() => {

@@ -1,34 +1,48 @@
 @import './color'
 
-msg(type)
-  background-color lightness($color_ + type, 95%)
-  color $color_ + type
-  border 1px solid lightness($color_ + type, 90%)
+msg(type) {
+  background-color: lightness($color_ + type, 95%)
+  color: $color_ + type
+  border: 1px solid lightness($color_ + type, 90%)
+}
 
-.toast
-  position fixed
-  top 10px
-  left 50%
-  transform translate3d(-50%, -100%, 0)
-  opacity 0
-  transition all 0.3s
-  padding 10px 20px
-  border-radius 3px
-  font-size 14px
-  msg(info)
+.toast {
+  position: fixed
+  top: 10px
+  left: 50%
+  transform: translate3d(-50%, -100%, 0)
+  opacity: 0
+  transition: all 0.3s
+  padding: 15px 20px
+  min-width: 300px
+  border-radius: 3px
+  font-size: 14px
+  display: flex
+  align-items: center
 
-  &.active
-    opacity 1
-    transform translate3d(-50%, 0, 0)
+  &.active {
+    opacity: 1
+    transform: translate3d(-50%, 0, 0)
+  }
 
-  &.info
+  &.info {
     msg(info)
+  }
 
-  &.success
+  &.success {
     msg(success)
+  }
 
-  &.warn
+  &.warn {
     msg(warning)
+  }
 
-  &.error
+  &.error {
     msg(danger)
+  }
+
+  .iconfont {
+    font-size: 20px
+    margin-right: 14px
+  }
+}

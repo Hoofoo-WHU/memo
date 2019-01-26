@@ -10,7 +10,7 @@ enum Type {
 
 class Toast {
   private $template = (msg: string, type: Type) => {
-    return $(`<div class="toast ${type || ''}">${msg}</div>`)
+    return $(`<div class="toast ${type || ''}"><i class="iconfont icon-${type} "></i><span>${msg}</span></div>`)
   }
   private $toast: JQuery
   private time?: number
