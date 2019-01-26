@@ -1,0 +1,28 @@
+@import './color'
+
+.toast
+  position fixed
+  top 0
+  left 50%
+  transform translate3d(-50%, -100%, 0)
+  opacity 0
+  transition all 0.3s
+  padding 5px
+  color #fff
+  background-color $color_primary
+
+  &.active
+    opacity 1
+    transform translate3d(-50%, 0, 0)
+
+  &.info
+    background-color $color_info
+
+  &.success
+    background-color $color_success
+
+  &.warn
+    background-color $color_warning
+
+  &.error
+    background-color $color_danger

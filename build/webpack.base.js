@@ -10,7 +10,8 @@ module.exports = {
   resolve: {
     alias: {
       '@': path.resolve('src')
-    }
+    },
+    extensions: ['.ts', '.js']
   },
   plugins: [
     new HtmlWebpackPlugin({
