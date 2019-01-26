@@ -1,28 +1,34 @@
 @import './color'
 
+msg(type)
+  background-color lightness($color_ + type, 95%)
+  color $color_ + type
+  border 1px solid lightness($color_ + type, 90%)
+
 .toast
   position fixed
-  top 0
+  top 10px
   left 50%
   transform translate3d(-50%, -100%, 0)
   opacity 0
   transition all 0.3s
-  padding 5px
-  color #fff
-  background-color $color_primary
+  padding 10px 20px
+  border-radius 3px
+  font-size 14px
+  msg(info)
 
   &.active
     opacity 1
     transform translate3d(-50%, 0, 0)
 
   &.info
-    background-color $color_info
+    msg(info)
 
   &.success
-    background-color $color_success
+    msg(success)
 
   &.warn
-    background-color $color_warning
+    msg(warning)
 
   &.error
-    background-color $color_danger
+    msg(danger)

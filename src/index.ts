@@ -1,7 +1,14 @@
 import '@/css/style.styl'
 
-import toast, { Type } from '@/components/toast'
+import toast from '@/components/toast'
 
-toast('123123')
-toast.error('321321', 20000)
-window['toast'] = toast
+toast('这是一条消息')
+setTimeout(() => {
+  toast.error('失败了')
+  setTimeout(() => {
+    toast.success('成功了')
+    setTimeout(() => {
+      toast.warn('警告警告')
+    }, 500)
+  }, 500)
+}, 500)

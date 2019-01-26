@@ -9,12 +9,12 @@ enum Type {
 }
 
 class Toast {
-  private $template = (msg: string, type?: Type) => {
+  private $template = (msg: string, type: Type) => {
     return $(`<div class="toast ${type || ''}">${msg}</div>`)
   }
   private $toast: JQuery
   private time?: number
-  constructor(msg: string, time: number = 1000, type?: Type) {
+  constructor(msg: string, time: number, type: Type) {
     this.$toast = this.$template(msg, type)
     this.time = time
     this.show()
@@ -34,27 +34,20 @@ class Toast {
   }
 }
 
-function toast(msg: string, time?: number, type?: Type): void {
-  new Toast(msg, time, type)
+function toast(msg: string, time: number = 1000) {
+  new Toast(msg, time, Type.info)
 }
 
 namespace toast {
-  export function success(msg: string, time?: number) {
+  export function success(msg: string, time: number = 1000) {
     new Toast(msg, time, Type.success)
   }
-  export function error(msg: string, time?: number) {
+  export function error(msg: string, time: number = 1000) {
     new Toast(msg, time, Type.error)
   }
-  export function info(msg: string, time?: number) {
-    new Toast(msg, time, Type.info)
-  }
-  export function warn(msg: string, time?: number) {
+  export function warn(msg: string, time: number = 1000) {
     new Toast(msg, time, Type.warn)
   }
 }
 
 export default toast
-export {
-  toast,
-  Type
-}
