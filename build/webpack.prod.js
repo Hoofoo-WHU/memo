@@ -1,7 +1,7 @@
 const base = require('./webpack.base')
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-
+const path = require('path')
 module.exports = merge(base, {
   mode: 'production',
   module: {
@@ -11,6 +11,14 @@ module.exports = merge(base, {
         use: [
           'style-loader',
           'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: {
+                path: path.resolve('config')
+              }
+            }
+          },
           'stylus-loader'
         ]
       },

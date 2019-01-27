@@ -1,0 +1,23 @@
+.memo {
+  position: absolute
+  left: 0
+  top: 0
+  background-color: #fff
+  width: 20vw
+  display: flex
+  flex-direction: column
+  min-height: 200px
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1)
+
+  >header {
+    height: 14px
+    background-color: rgb(0, 0, 0)
+    user-select: none
+    cursor: move
+    -webkit-user-select: none
+  }
+
+  &.draging {
+    z-index: 1
+  }
+}
