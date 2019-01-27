@@ -2,7 +2,7 @@
   position: absolute
   left: 0
   top: 0
-  background-color: #fff
+  background-color: #FEF49C
   width: 20vw
   display: flex
   flex-direction: column
@@ -11,13 +11,27 @@
 
   >header {
     height: 14px
-    background-color: rgb(0, 0, 0)
+    flex-shrink: 0
+    background-color: rgba(0, 0, 0, 0.05)
     user-select: none
     cursor: move
-    -webkit-user-select: none
+  }
+
+  >main {
+    flex-grow: 1
+    font-size: inherit
+    resize: none
+    border: none
+    padding: 1em
+    background-color: inherit
+
+    &:focus {
+      outline: none
+    }
   }
 
   &.draging {
-    z-index: 1
+    z-index: 100
+    opacity: 0.6
   }
 }
