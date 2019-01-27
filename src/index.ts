@@ -28,3 +28,4 @@ memos[0].on('close', function (cb: Function) {
   delete memos[0]
   toast.success('删除成功')
 })
+window['color'] = memos[0].setColor.bind(memos[0])

@@ -6,7 +6,14 @@ interface Point {
   x: number
   y: number
 }
-
+export enum MemoColor {
+  yellow = 'yellow',
+  purple = 'purple',
+  pink = 'pink',
+  grey = 'grey',
+  green = 'green',
+  blue = 'blue'
+}
 export default class Memo {
   private text: string
   private id: string
@@ -24,20 +31,23 @@ export default class Memo {
       y: 0
     }
   }
-  constructor(id: string, text: string, el: JQuery, { x, y }: Point) {
+  private color: MemoColor
+  constructor(id: string, text: string, el: JQuery, { x, y }: Point = { x: 0, y: 0 }, color: MemoColor = MemoColor.yellow) {
+    this.eventHub = new EventHub()
+    this.memo = this.template(text)
     this.id = id
     this.el = el
+    this.color = color
+    this.setColor(color)
     this.text = text
-    this.memo = this.template(text)
     this.move(x, y)
-    this.el.append(this.memo)
     this.bindEvent()
-    this.eventHub = new EventHub()
+    this.el.append(this.memo)
   }
   private template(text: string) {
     return $(`
       <div class="memo">
-      <header><span class="close">x</span></header>
+      <header><span class="close"><i class="iconfont icon-close"></i></span></header>
       <main contentEditable>${text}</main>
       </div>
     `)
@@ -86,5 +96,11 @@ export default class Memo {
   }
   public on(event: string, callback: Function) {
     this.eventHub.on(event, callback)
+  }
+  public setColor(color: MemoColor) {
+    this.memo.removeClass(this.color)
+    this.color = color
+    this.memo.addClass(color)
+    this.eventHub.emit('colorchange')
   }
 }

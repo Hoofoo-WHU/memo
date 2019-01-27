@@ -1,20 +1,47 @@
+@import './color.styl'
+
+memo_color($color) {
+  background-color: $color_ + $color
+
+  >header {
+    background-color: lightness($color_ + $color, 70%)
+  }
+}
+
 .memo {
   position: absolute
   left: 0
   top: 0
-  background-color: #FEF49C
   width: 20vw
   display: flex
   flex-direction: column
   min-height: 200px
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1)
+  transition: background-color 0.3s
+
+  .close {
+    visibility: hidden
+  }
+
+  &:hover {
+    .close {
+      visibility: visible
+    }
+  }
 
   >header {
     height: 14px
     flex-shrink: 0
-    background-color: rgba(0, 0, 0, 0.05)
     user-select: none
     cursor: move
+    transition: background-color 0.3s
+
+    .close .icon-close {
+      font-size: 14px
+      color: rgba(0, 0, 0, 0.3)
+      cursor: pointer
+      float: right
+    }
   }
 
   >main {
@@ -33,5 +60,29 @@
   &.draging {
     z-index: 100
     opacity: 0.6
+  }
+
+  &.yellow {
+    memo_color('yellow')
+  }
+
+  &.green {
+    memo_color('green')
+  }
+
+  &.pink {
+    memo_color('pink')
+  }
+
+  &.grey {
+    memo_color('grey')
+  }
+
+  &.purple {
+    memo_color('purple')
+  }
+
+  &.blue {
+    memo_color('blue')
   }
 }
