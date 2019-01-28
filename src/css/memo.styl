@@ -4,7 +4,7 @@ memo_color($color) {
   background-color: $color_ + $color
 
   >header {
-    background-color: lightness($color_ + $color, 70%)
+    background-color: lightness($color_ + $color, lightness($color_ + $color) - 8%)
   }
 }
 

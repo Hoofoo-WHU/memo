@@ -2,25 +2,15 @@ import * as $ from 'jquery'
 import EventHub from '@/utils/EventHub'
 import '@/css/memo.styl'
 
-interface Point {
-  x: number
-  y: number
-}
-export enum MemoColor {
-  yellow = 'yellow',
-  purple = 'purple',
-  pink = 'pink',
-  grey = 'grey',
-  green = 'green',
-  blue = 'blue'
-}
-export default class Memo {
+
+class Memo {
   private text: string
   private id: string
   private eventHub: EventHub
-  private position: Point = {
+  private position: Memo.Point = {
     x: 0,
-    y: 0
+    y: 0,
+    z: 0
   }
   private el: JQuery
   private memo: JQuery
@@ -31,8 +21,8 @@ export default class Memo {
       y: 0
     }
   }
-  private color: MemoColor
-  constructor(id: string, text: string, el: JQuery, { x, y }: Point = { x: 0, y: 0 }, color: MemoColor = MemoColor.yellow) {
+  private color: Memo.Color
+  constructor({ id, text = '', el, position = { x: 0, y: 0, z: 0 }, color = Memo.Color.yellow }: IModel) {
     this.eventHub = new EventHub()
     this.memo = this.template(text)
     this.id = id
@@ -40,7 +30,7 @@ export default class Memo {
     this.color = color
     this.setColor(color)
     this.text = text
-    this.move(x, y)
+    this.move(position.x, position.y)
     this.bindEvent()
     this.el.append(this.memo)
   }
@@ -83,10 +73,11 @@ export default class Memo {
       }
     })
     this.memo.on('click', '.close', () => {
-      this.eventHub.emit('close', this.close.bind(this))
+      this.eventHub.emit('close')
     })
+    this.memo.on('mousedown', '.close', false)
   }
-  private close() {
+  public close() {
     this.memo.remove()
   }
   public move(x: number, y: number) {
@@ -97,10 +88,48 @@ export default class Memo {
   public on(event: string, callback: Function) {
     this.eventHub.on(event, callback)
   }
-  public setColor(color: MemoColor) {
+  public setColor(color: Memo.Color) {
     this.memo.removeClass(this.color)
     this.color = color
     this.memo.addClass(color)
     this.eventHub.emit('colorchange')
   }
 }
+export interface IModel {
+  id: string
+  position?: Memo.Point
+  color?: Memo.Color
+  el: JQuery
+  text?: string
+}
+namespace Memo {
+  export class Model implements IModel {
+    id: string
+    position?: Point
+    color?: Color
+    el: JQuery
+    text?: string
+    constructor(id: string, el: JQuery, text?: string, position?: Point, color?: Color) {
+      this.id = id
+      this.position = position
+      this.color = color
+      this.el = el
+      this.text = text
+    }
+  }
+  export enum Color {
+    yellow = 'yellow',
+    purple = 'purple',
+    pink = 'pink',
+    grey = 'grey',
+    green = 'green',
+    blue = 'blue'
+  }
+  export interface Point {
+    x: number
+    y: number
+    z?: number
+  }
+}
+
+export default Memo
