@@ -36,19 +36,30 @@ interface Point {
   z?: number
 }
 ```
-## 调用
 
-### 新建实例
+## 新建实例
 ```ts
 new Memo(model: Memo.Model)
 ```
 
-### 方法
-#### close
+## 方法
+### close 
 删除memo
-#### move(x: number, y: number)
+```ts
+close()
+```
+### move
 移动到点`(x, y)`
-#### setColor(color: Memo.Color)
+```ts
+move(x: number, y: number)
+```
+### setColor
 修改背景色
-#### setZ(z: number)
+```ts
+setColor(color: Memo.Color)
+```
+#### setZ
 修改`z-index`
+```ts
+setZ(z: number)
+```
