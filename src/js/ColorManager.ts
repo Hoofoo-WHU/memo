@@ -4,7 +4,7 @@ import EventHub from '@/utils/EventHub'
 export default class ColorManager {
   private eventHub = new EventHub()
   private template = $(`
-  <ul class="colors">
+  <ul class="colors" style="display: none">
     <li data-name="yellow" class="color yellow"></li>
     <li data-name="blue" class="color blue"></li>
     <li data-name="green" class="color green"></li>
