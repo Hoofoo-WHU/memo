@@ -32,12 +32,16 @@ export default class MemoManager {
         }
       } else {
         v.position = { x: 0, y: 0, z: ++this.top }
-        console.log(v.position)
       }
       let m = new Memo(v)
       this.bindEvent(m)
       this.memos.set(v.id, m)
+      m.focus()
     })
+  }
+  public new(id: string) {
+    let memo = new Memo.Model(id, this.el, '', { x: 0, y: 0, z: ++this.top })
+    this.push(memo)
   }
   public remove(id: string | string[]) {
     if (Array.isArray(id)) {
@@ -74,9 +78,16 @@ export default class MemoManager {
       if (this.colorManager)
         this.colorManager.hide()
     })
+    memo.on('colorchange', (color: Memo.Color) => {
+      if (this.colorManager) {
+        this.colorManager.show()
+        this.colorManager.active(color)
+      }
+    })
     memo.on('close', () => {
       if (confirm('便利贴删除后不可恢复，确认删除？')) {
         memo.close()
+        this.colorManager && this.colorManager.hide()
         toast.success('删除成功')
       }
     })
