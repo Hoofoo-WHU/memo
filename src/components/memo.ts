@@ -31,6 +31,7 @@ class Memo {
     this.setColor(color)
     this.text = text
     this.move(position.x, position.y)
+    this.setZ(position.z || 0)
     this.bindEvent()
     this.el.append(this.memo)
   }
@@ -50,6 +51,7 @@ class Memo {
   }
   private onDragstart(e: JQuery.MouseEventBase) {
     e.preventDefault()
+    this.eventHub.emit('focus', this.position)
     this.drag.draging = true
     this.memo.addClass('draging')
     this.drag.offset.x = e.pageX - this.position.x
@@ -72,6 +74,9 @@ class Memo {
         this.eventHub.emit('textchange', this.text)
       }
     })
+    this.memo.on('focus', 'main', (e) => {
+      this.eventHub.emit('focus', this.position)
+    })
     this.memo.on('click', '.close', () => {
       this.eventHub.emit('close')
     })
@@ -92,7 +97,11 @@ class Memo {
     this.memo.removeClass(this.color)
     this.color = color
     this.memo.addClass(color)
-    this.eventHub.emit('colorchange')
+    this.eventHub.emit('colorchange', this.color)
+  }
+  public setZ(z: number) {
+    this.position.z = z
+    this.memo.css('z-index', z)
   }
 }
 export interface IModel {
