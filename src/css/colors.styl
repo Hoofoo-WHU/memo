@@ -1,0 +1,48 @@
+@import './color.styl'
+
+#color {
+  display: flex
+  align-items: center
+  margin-left: 100px
+
+  .colors {
+    display: flex
+    align-items: center
+
+    .color {
+      width: 30px
+      height: 30px
+      border-radius: 50%
+      margin-right: 5px
+      cursor: pointer
+
+      &.yellow {
+        background-color: $color_yellow
+      }
+
+      &.blue {
+        background-color: $color_blue
+      }
+
+      &.green {
+        background-color: $color_green
+      }
+
+      &.pink {
+        background-color: $color_pink
+      }
+
+      &.purple {
+        background-color: $color_purple
+      }
+
+      &.grey {
+        background-color: $color_grey
+      }
+
+      &.active {
+        border: 1px solid #161616
+      }
+    }
+  }
+}

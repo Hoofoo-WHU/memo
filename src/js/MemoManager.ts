@@ -1,12 +1,21 @@
 import Memo from '@/components/memo'
-import toast from '@/components/toast';
+import toast from '@/components/toast'
+import ColorManager from './ColorManager'
 
 export default class MemoManager {
   private top: number = -2147483648
   private el: JQuery
   private memos: Map<string, Memo> = new Map()
-  constructor(el: JQuery) {
+  private colorManager?: ColorManager
+  private curr: Memo
+  constructor(el: JQuery, cm?: ColorManager) {
     this.el = el
+    this.colorManager = cm
+    if (this.colorManager) {
+      this.colorManager.on('colorchange', (color: Memo.Color) => {
+        this.curr.setColor(color)
+      })
+    }
   }
   public push(memo: Memo.Model[] | Memo.Model) {
     if (!Array.isArray(memo)) {
@@ -40,7 +49,17 @@ export default class MemoManager {
     }
   }
   private bindEvent(memo: Memo) {
-    memo.on('focus', (position: Memo.Point) => {
+    memo.on('dragstart', (position: Memo.Point) => {
+      if (this.top > (position.z || -Infinity)) {
+        memo.setZ(++this.top)
+      }
+    })
+    memo.on('focus', ({ position, color }: { position: Memo.Point, color: Memo.Color }) => {
+      this.curr = memo
+      if (this.colorManager) {
+        this.colorManager.show()
+        this.colorManager.active(color)
+      }
       if (this.top > (position.z || -Infinity)) {
         memo.setZ(++this.top)
       }
@@ -50,6 +69,10 @@ export default class MemoManager {
     })
     memo.on('textchange', (text: string) => {
       console.log(text)
+    })
+    memo.on('blur', () => {
+      if (this.colorManager)
+        this.colorManager.hide()
     })
     memo.on('close', () => {
       if (confirm('便利贴删除后不可恢复，确认删除？')) {

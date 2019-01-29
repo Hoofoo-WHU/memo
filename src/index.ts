@@ -1,8 +1,9 @@
 import '@/css/style.styl'
 import * as $ from 'jquery'
 import toast from '@/components/toast'
-import MemoManager from '@/js/MemoManager';
-import Memo from '@/components/memo';
+import MemoManager from '@/js/MemoManager'
+import ColorManager from '@/js/ColorManager'
+import Memo from '@/components/memo'
 
 toast('这是一条消息')
 setTimeout(() => {
@@ -14,8 +15,8 @@ setTimeout(() => {
     }, 500)
   }, 500)
 }, 500)
-
-let mm = new MemoManager($('#memo'))
+let cm = new ColorManager($('#color'))
+let mm = new MemoManager($('#memo'), cm)
 
 mm.push([
   new Memo.Model('0', $('#memo'), '1'),

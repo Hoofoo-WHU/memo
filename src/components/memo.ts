@@ -51,7 +51,7 @@ class Memo {
   }
   private onDragstart(e: JQuery.MouseEventBase) {
     e.preventDefault()
-    this.eventHub.emit('focus', this.position)
+    this.eventHub.emit('dragstart', this.position)
     this.drag.draging = true
     this.memo.addClass('draging')
     this.drag.offset.x = e.pageX - this.position.x
@@ -68,6 +68,7 @@ class Memo {
     this.memo.on('mouseup', 'header', this.onDragend.bind(this))
     $(document).on('mousemove', this.onDrag.bind(this))
     this.memo.on('blur', 'main', (e) => {
+      this.eventHub.emit('blur', this.text)
       let text = this.memo.find('main').html()
       if (this.text !== text) {
         this.text = text
@@ -75,7 +76,7 @@ class Memo {
       }
     })
     this.memo.on('focus', 'main', (e) => {
-      this.eventHub.emit('focus', this.position)
+      this.eventHub.emit('focus', { position: this.position, color: this.color })
     })
     this.memo.on('click', '.close', () => {
       this.eventHub.emit('close')
@@ -102,6 +103,9 @@ class Memo {
   public setZ(z: number) {
     this.position.z = z
     this.memo.css('z-index', z)
+  }
+  public focus() {
+    this.memo.find('main').focus()
   }
 }
 export interface IModel {
