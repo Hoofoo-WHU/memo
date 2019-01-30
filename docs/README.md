@@ -3,3 +3,8 @@
 [Toast](Toast.md)
 
 [Memo](Memo.md)
+
+## 管理器
+[ColorManager](ColorManager.md)
+
+[MemoManager](MemoManager.md)
