@@ -1,13 +1,16 @@
 import Memo from '@/components/memo'
 import toast from '@/components/toast'
 import ColorManager from './ColorManager'
+import EventHub from '@/utils/EventHub'
 
-export default class MemoManager {
+
+class MemoManager {
   private top: number = -2147483648
   private el: JQuery
   private memos: Map<string, Memo> = new Map()
   private colorManager?: ColorManager
   private curr: Memo
+  private eventHub = new EventHub()
   constructor(el: JQuery, cm?: ColorManager) {
     this.el = el
     this.colorManager = cm
@@ -17,11 +20,12 @@ export default class MemoManager {
       })
     }
   }
-  public push(memo: Memo.Model[] | Memo.Model) {
+  public push(memo: MemoManager.Model[] | MemoManager.Model) {
     if (!Array.isArray(memo)) {
       memo = [memo]
     }
     memo.forEach(v => {
+      v.el = this.el
       if (v.position) {
         if (v.position.z) {
           if (v.position.z > this.top) {
@@ -52,6 +56,9 @@ export default class MemoManager {
       this.memos.has(id) && this.memos.get(id)!.close()
     }
   }
+  public on(e: string, callback: Function) {
+    this.eventHub.on(e, callback)
+  }
   private bindEvent(memo: Memo) {
     memo.on('dragstart', (position: Memo.Point) => {
       if (this.top > (position.z || -Infinity)) {
@@ -69,10 +76,10 @@ export default class MemoManager {
       }
     })
     memo.on('dragend', (position: Memo.Point) => {
-      console.log(position)
+      this.eventHub.emit('positionchange', { id: memo.getId(), position })
     })
     memo.on('textchange', (text: string) => {
-      console.log(text)
+      this.eventHub.emit('textchange', { id: memo.getId(), text })
     })
     memo.on('blur', () => {
       if (this.colorManager)
@@ -83,13 +90,38 @@ export default class MemoManager {
         this.colorManager.enable()
         this.colorManager.active(color)
       }
+      this.eventHub.emit('colorchange', { id: memo.getId(), color })
     })
     memo.on('close', () => {
       if (confirm('便利贴删除后不可恢复，确认删除？')) {
-        memo.close()
-        this.colorManager && this.colorManager.disable()
-        toast.success('删除成功')
+        this.eventHub.emit('remove', {
+          id: memo.getId(), close: (success?: boolean) => {
+            if (success) {
+              memo.close()
+              this.colorManager && this.colorManager.disable()
+              toast.success('删除成功')
+            } else {
+              toast.error('删除失败')
+            }
+          }
+        })
       }
     })
   }
 }
+namespace MemoManager {
+  export class Model {
+    id: string
+    position?: Memo.Point
+    color?: Memo.Color
+    text?: string
+    el: JQuery
+    constructor(id: string, text: string = '', position?: Memo.Point, color?: Memo.Color) {
+      this.id = id
+      this.text = text
+      this.color = color
+      this.position = position
+    }
+  }
+}
+export default MemoManager

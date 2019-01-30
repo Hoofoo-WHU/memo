@@ -5,7 +5,7 @@ import '@/css/memo.styl'
 
 class Memo {
   private text: string
-  private id: string
+  private readonly id: string
   private eventHub: EventHub
   private position: Memo.Point = {
     x: 0,
@@ -106,6 +106,9 @@ class Memo {
   }
   public focus() {
     this.memo.find('main').focus()
+  }
+  public getId() {
+    return this.id
   }
 }
 export interface IModel {
