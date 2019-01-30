@@ -4,7 +4,7 @@ import EventHub from '@/utils/EventHub'
 export default class ColorManager {
   private eventHub = new EventHub()
   private template = $(`
-  <ul class="colors" style="display: none">
+  <ul class="colors" disable>
     <li data-name="yellow" class="color yellow"></li>
     <li data-name="blue" class="color blue"></li>
     <li data-name="green" class="color green"></li>
@@ -31,10 +31,10 @@ export default class ColorManager {
   public on(e: string, cb: Function) {
     this.eventHub.on(e, cb)
   }
-  public hide() {
-    this.template.hide()
+  public disable() {
+    this.template.attr('disable', '')
   }
-  public show() {
-    this.template.show()
+  public enable() {
+    this.template.removeAttr('disable')
   }
 }

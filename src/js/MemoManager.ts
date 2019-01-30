@@ -61,7 +61,7 @@ export default class MemoManager {
     memo.on('focus', ({ position, color }: { position: Memo.Point, color: Memo.Color }) => {
       this.curr = memo
       if (this.colorManager) {
-        this.colorManager.show()
+        this.colorManager.enable()
         this.colorManager.active(color)
       }
       if (this.top > (position.z || -Infinity)) {
@@ -76,18 +76,18 @@ export default class MemoManager {
     })
     memo.on('blur', () => {
       if (this.colorManager)
-        this.colorManager.hide()
+        this.colorManager.disable()
     })
     memo.on('colorchange', (color: Memo.Color) => {
       if (this.colorManager) {
-        this.colorManager.show()
+        this.colorManager.enable()
         this.colorManager.active(color)
       }
     })
     memo.on('close', () => {
       if (confirm('便利贴删除后不可恢复，确认删除？')) {
         memo.close()
-        this.colorManager && this.colorManager.hide()
+        this.colorManager && this.colorManager.disable()
         toast.success('删除成功')
       }
     })
