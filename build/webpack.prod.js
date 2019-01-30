@@ -29,6 +29,6 @@ module.exports = merge(base, {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(base.output.path)
+    new CleanWebpackPlugin(base.output.path, { root: path.resolve('') })
   ]
 })
