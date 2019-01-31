@@ -20,7 +20,7 @@ class MemoManager {
       })
     }
   }
-  public push(memo: MemoManager.Model[] | MemoManager.Model) {
+  public push(memo: MemoManager.Model[] | MemoManager.Model, focus: boolean = false) {
     if (!Array.isArray(memo)) {
       memo = [memo]
     }
@@ -42,13 +42,15 @@ class MemoManager {
       let m = new Memo(v)
       this.bindEvent(m)
       this.memos.set(v.id, m)
-      m.focus()
+      if (focus) {
+        m.focus()
+      }
     })
   }
   public new(id: string) {
     let memo = new Memo.Model(id, this.el, '', { x: 0, y: 0, z: ++this.top })
     this.eventHub.emit('positionchange', { id: memo.id, position: memo.position })
-    this.push(memo)
+    this.push(memo, true)
   }
   public remove(id: string | string[]) {
     if (Array.isArray(id)) {
@@ -76,6 +78,7 @@ class MemoManager {
       }
       if (this.top > (position.z || -Infinity)) {
         memo.setZ(++this.top)
+        this.eventHub.emit('positionchange', { id: memo.getId(), position: position })
       }
     })
     memo.on('dragend', (position: Memo.Point) => {

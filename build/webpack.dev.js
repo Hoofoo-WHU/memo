@@ -1,7 +1,7 @@
 const path = require('path')
 const base = require('./webpack.base')
 const merge = require('webpack-merge')
-const { HotModuleReplacementPlugin } = require('webpack')
+const { HotModuleReplacementPlugin, DefinePlugin } = require('webpack')
 
 module.exports = merge(base, {
   mode: 'development',
@@ -37,6 +37,10 @@ module.exports = merge(base, {
     ]
   },
   plugins: [
+    new DefinePlugin({
+      'SERVICE_URL': JSON.stringify('http://localhost:3000')
+      // 'SERVICE_URL': JSON.stringify('https://memo-server.leanapp.cn')
+    }),
     new HotModuleReplacementPlugin()
   ]
 })

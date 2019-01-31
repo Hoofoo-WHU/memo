@@ -1,6 +1,7 @@
 const base = require('./webpack.base')
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { DefinePlugin } = require('webpack')
 const path = require('path')
 module.exports = merge(base, {
   mode: 'production',
@@ -29,6 +30,9 @@ module.exports = merge(base, {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(base.output.path, { root: path.resolve('') })
+    new CleanWebpackPlugin(base.output.path, { root: path.resolve('') }),
+    new DefinePlugin({
+      'SERVICE_URL': JSON.stringify('http://memo-server.leanapp.cn')
+    })
   ]
 })
