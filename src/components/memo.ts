@@ -82,6 +82,7 @@ class Memo {
       this.eventHub.emit('close')
     })
     this.memo.on('mousedown', '.close', false)
+    this.memo.on('mouseup', '.close', false)
   }
   public close() {
     this.memo.remove()

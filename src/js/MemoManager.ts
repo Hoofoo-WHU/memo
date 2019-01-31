@@ -33,9 +33,11 @@ class MemoManager {
           }
         } else {
           v.position.z = ++this.top
+          this.eventHub.emit('positionchange', { id: v.id, position: v.position })
         }
       } else {
         v.position = { x: 0, y: 0, z: ++this.top }
+        this.eventHub.emit('positionchange', { id: v.id, position: v.position })
       }
       let m = new Memo(v)
       this.bindEvent(m)
@@ -45,6 +47,7 @@ class MemoManager {
   }
   public new(id: string) {
     let memo = new Memo.Model(id, this.el, '', { x: 0, y: 0, z: ++this.top })
+    this.eventHub.emit('positionchange', { id: memo.id, position: memo.position })
     this.push(memo)
   }
   public remove(id: string | string[]) {

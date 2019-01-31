@@ -2,7 +2,6 @@ import '@/css/style.styl'
 import * as $ from 'jquery'
 import MemoManager from '@/js/MemoManager'
 import ColorManager from '@/js/ColorManager'
-import Memo from '@/components/memo'
 
 let cm = new ColorManager($('#color'))
 let mm = new MemoManager($('#memo'), cm)
