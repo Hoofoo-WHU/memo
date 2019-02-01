@@ -17,8 +17,10 @@ axios.interceptors.response.use(res => {
   if (err.response && err.response.status === 403) {
     toast('正在跳转至GitHub登录...')
     window.location.href = `http://github.com/login/oauth/authorize?client_id=f088e85d6b675b49cb30&redirect_uri=${window.location.href}`
+  } else if (err.response && err.response.status === 400) {
+    toast.error('错误的请求！')
   } else {
-    toast.error('连接服务器失败！')
+    toast.error('连接服务器失败，请刷新后再试！')
   }
   throw err
 })
