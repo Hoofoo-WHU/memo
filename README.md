@@ -1,7 +1,7 @@
 # memo
 一个基于node.js的在线便签
 ## 服务端项目
-[memo-server](/Hoofoo-WHU/memo-server)
+[memo-server](https://github.com/Hoofoo-WHU/memo-server)
 
 ## 本地运行
 
