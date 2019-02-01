@@ -48,7 +48,7 @@ class MemoManager {
     })
   }
   public new(id: string) {
-    let memo = new Memo.Model(id, this.el, '', { x: 0, y: 0, z: ++this.top })
+    let memo = new Memo.Model(id, this.el, '', { x: 20, y: 20, z: ++this.top })
     this.eventHub.emit('positionchange', { id: memo.id, position: memo.position })
     this.push(memo, true)
   }

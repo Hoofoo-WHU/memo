@@ -14,14 +14,18 @@ axios.defaults.withCredentials = true
 axios.interceptors.response.use(res => {
   return res
 }, err => {
-  if (err.response.status === 403) {
-    window.location.href = "http://github.com/login/oauth/authorize?client_id=f088e85d6b675b49cb30"
+  if (err.response && err.response.status === 403) {
+    toast('正在跳转至GitHub登录...')
+    window.location.href = `http://github.com/login/oauth/authorize?client_id=f088e85d6b675b49cb30&redirect_uri=${window.location.href}`
+  } else {
+    toast.error('连接服务器失败！')
   }
   throw err
 })
 let urlParams = new URLParams(window.location)
 
 axios.post(`/api/login/github/${urlParams['code']}`).then((res) => {
+  $('body>header').addClass('active')
   toast.success('登录成功，Memo不保留登录状态，关闭页面即注销！', 3000)
   let um = new UserManager($('#user'), res.data.avatar, res.data.name)
   let cm = new ColorManager($('#color'))
@@ -35,9 +39,13 @@ axios.post(`/api/login/github/${urlParams['code']}`).then((res) => {
   })
 
   $('#new').on('click', async () => {
-    let res = await axios.post('/api/memo/')
-    mm.new(res.data.objectId)
-    toast.success('新建便签成功！')
+    try {
+      let res = await axios.post('/api/memo/')
+      mm.new(res.data.objectId)
+      toast.success('新建便签成功！')
+    } catch {
+      toast.error('新建便签失败！')
+    }
   })
 
   mm.on('textchange', async (e: any) => {

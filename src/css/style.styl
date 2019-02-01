@@ -23,7 +23,11 @@ body {
     position: fixed
     z-index: 2
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.05)
-    display: flex
+    display: none
+
+    &.active {
+      display: flex
+    }
 
     .logo {
       padding-left: 10px
