@@ -14,7 +14,7 @@ axios.defaults.withCredentials = true
 axios.interceptors.response.use(res => {
   return res
 }, err => {
-  if (err.response && err.response.status === 403) {
+  if (err.response && (err.response.status === 403 || err.response.status === 401)) {
     toast('正在跳转至GitHub登录...')
     window.location.href = `http://github.com/login/oauth/authorize?client_id=f088e85d6b675b49cb30&redirect_uri=${window.location.href.replace(/\?.*/, '')}`
   } else if (err.response && err.response.status === 400) {
@@ -32,6 +32,7 @@ axios.post(`/api/login/github/${urlParams['code']}`).then((res) => {
   let um = new UserManager($('#user'), res.data.avatar, res.data.name)
   let cm = new ColorManager($('#color'))
   let mm = new MemoManager($('#memo'), cm)
+  axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
 
   axios.get('api/memo/').then(res => {
     res.data.forEach((o: any) => {
