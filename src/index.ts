@@ -34,7 +34,6 @@ axios.post(`/api/login/github/${urlParams['code']}`).then((res) => {
   let mm = new MemoManager($('#memo'), cm)
 
   axios.interceptors.request.use((req) => {
-    req.headers['Access-Control-Allow-Headers'] = '*'
     req.headers.Authorization = `Bearer ${res.data.token}`
     return req
   })
