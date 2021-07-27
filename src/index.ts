@@ -32,7 +32,11 @@ axios.post(`/api/login/github/${urlParams['code']}`).then((res) => {
   let um = new UserManager($('#user'), res.data.avatar, res.data.name)
   let cm = new ColorManager($('#color'))
   let mm = new MemoManager($('#memo'), cm)
-  axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
+
+  axios.interceptors.request.use((req) => {
+    req.headers.Authorization = `Bearer ${res.data.token}`
+    return req
+  })
 
   axios.get('api/memo/').then(res => {
     res.data.forEach((o: any) => {
