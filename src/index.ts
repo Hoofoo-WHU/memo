@@ -16,7 +16,7 @@ axios.interceptors.response.use(res => {
 }, err => {
   if (err.response && err.response.status === 403) {
     toast('正在跳转至GitHub登录...')
-    window.location.href = `http://github.com/login/oauth/authorize?client_id=f088e85d6b675b49cb30&redirect_uri=${window.location.href}`
+    window.location.href = `http://github.com/login/oauth/authorize?client_id=f088e85d6b675b49cb30&redirect_uri=${window.location.href.replace(/\?.*/, '')}`
   } else if (err.response && err.response.status === 400) {
     toast.error('错误的请求！')
   } else {
