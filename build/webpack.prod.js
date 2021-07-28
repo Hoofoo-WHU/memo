@@ -32,7 +32,7 @@ module.exports = merge(base, {
   plugins: [
     new CleanWebpackPlugin(base.output.path, { root: path.resolve('') }),
     new DefinePlugin({
-      'SERVICE_URL': JSON.stringify('https://memo-api.avosapps.us')
+      'SERVICE_URL': JSON.stringify('https://memo-server.leanapp.cn')
     })
   ]
 })
